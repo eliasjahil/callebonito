@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Maestro — CALLE BONITA #5</title>
+<style>
+:root{--bg:#0f1117;--surface:#1a1d27;--s2:#22263a;--border:#2e3350;--text:#e2e8f0;--muted:#8892b0;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--blue:#3b82f6;--purple:#8b5cf6;--cyan:#06b6d4}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;font-size:13px}
+.header{background:linear-gradient(135deg,#1a1d27,#0f1117);border-bottom:1px solid var(--border);padding:18px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header h1{font-size:18px;font-weight:800;color:#fff}.header h1 span{color:var(--cyan)}
+.header .meta{color:var(--muted);font-size:11px;margin-top:2px}
+.live{background:var(--green);color:#000;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.5px}
+.upd{color:var(--muted);font-size:11px}
+.tabs{display:flex;gap:2px;padding:10px 28px 0;border-bottom:1px solid var(--border);background:var(--surface);overflow-x:auto}
+.tab{padding:8px 16px;border-radius:6px 6px 0 0;cursor:pointer;color:var(--muted);font-weight:600;font-size:12px;border:1px solid transparent;border-bottom:none;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--text);background:var(--s2)}.tab.active{color:#fff;background:var(--bg);border-color:var(--border)}
+.main{padding:22px 28px}.tc{display:none}.tc.active{display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:22px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px}
+.kpi .lbl{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.kpi .val{font-size:30px;font-weight:900;line-height:1}.kpi .sub{color:var(--muted);font-size:11px;margin-top:3px}
+.kpi.c .val{color:var(--cyan)}.kpi.g .val{color:var(--green)}.kpi.r .val{color:var(--red)}.kpi.y .val{color:var(--yellow)}.kpi.b .val{color:var(--blue)}
+.pbar{background:var(--border);border-radius:4px;height:6px;margin-top:8px;overflow:hidden}
+.pfill{height:100%;border-radius:4px;background:var(--cyan)}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px}
+.alerts{display:grid;gap:8px;margin-bottom:20px}
+.alert-item{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:10px 14px;font-size:12px;color:#fcd34d}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.fb{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:20px;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s}
+.fb:hover,.fb.active{border-color:var(--cyan);color:var(--cyan);background:rgba(6,182,212,.08)}
+.srch{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-size:12px;width:220px;outline:none}
+.srch:focus{border-color:var(--cyan)}
+.tw{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+th{background:var(--surface);padding:10px 12px;text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px;font-weight:700;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--text)}
+td{padding:9px 12px;border-bottom:1px solid rgba(46,51,80,.5);vertical-align:middle}
+tr:last-child td{border-bottom:none}tr:hover td{background:rgba(255,255,255,.025)}
+.wbsh td{background:var(--s2);color:var(--cyan);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:6px 12px}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.badge.atrasada{background:rgba(239,68,68,.15);color:#fca5a5}.badge.finalizada{background:rgba(16,185,129,.15);color:#6ee7b7}
+.badge.progreso{background:rgba(245,158,11,.15);color:#fcd34d}.badge.planificada{background:rgba(148,163,184,.1);color:#94a3b8}
+.pb{display:flex;align-items:center;gap:7px}.pb-track{flex:1;background:var(--border);border-radius:3px;height:5px;min-width:55px}
+.pb-fill{height:100%;border-radius:3px}.pn{color:var(--muted);font-size:11px;min-width:28px;text-align:right}
+.hgrid{display:grid;gap:11px}
+.hcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:15px;display:flex;align-items:flex-start;gap:14px}
+.hcard.v{border-color:var(--red)}.hcard.p{border-color:var(--yellow)}.hcard.ok{border-color:var(--green)}
+.hicon{font-size:22px;margin-top:2px}.hinfo{flex:1}
+.hid{color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase}
+.hname{font-size:14px;font-weight:700;margin:2px 0}.hdesc{color:var(--muted);font-size:12px}
+.hdate{text-align:right;flex-shrink:0}.hdate .d{font-size:14px;font-weight:700;color:var(--cyan)}
+.hdate .days{font-size:11px;color:var(--muted);margin-top:2px}.hdate .days.neg{color:var(--red)}.hdate .days.soon{color:var(--yellow)}
+.rgrid{display:grid;gap:10px}
+.rcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center}
+.rcard.critico{border-left:3px solid var(--red)}.rcard.medio{border-left:3px solid var(--yellow)}.rcard.bajo{border-left:3px solid var(--green)}
+.sc{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;flex-shrink:0}
+.sc.critico{background:rgba(239,68,68,.2);color:var(--red)}.sc.medio{background:rgba(245,158,11,.2);color:var(--yellow)}.sc.bajo{background:rgba(16,185,129,.2);color:var(--green)}
+.rm .rid{color:var(--muted);font-size:10px}.rm .rn{font-weight:600;font-size:13px;margin:2px 0}.rm .rmit{color:var(--muted);font-size:11px}
+.rmeta{text-align:right}.rmeta .cat{font-size:10px;color:var(--purple);background:rgba(139,92,246,.1);padding:2px 7px;border-radius:20px}
+.rmeta .duo{color:var(--muted);font-size:11px;margin-top:5px}
+.empty{text-align:center;padding:36px;color:var(--muted)}
+.footer{text-align:center;padding:18px;color:var(--muted);font-size:11px;border-top:1px solid var(--border);margin-top:20px}
+@media(max-width:768px){.main{padding:14px}.header{padding:12px 16px}.tabs{padding:8px 16px 0}.kpis{grid-template-columns:repeat(2,1fr)}.rmeta{display:none}.hcard{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div><h1>Plan Maestro — <span>CALLE BONITA #5</span></h1><div class="meta">Project Expert · Expert Construction</div></div>
+  <div style="display:flex;align-items:center;gap:10px"><span class="upd">Actualizado: 07-Jun-2026</span><span class="live">● LIVE</span></div>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="sw('dashboard',this)">📊 Dashboard</div>
+  <div class="tab" onclick="sw('tareas',this)">📋 Tareas</div>
+  <div class="tab" onclick="sw('hitos',this)">🏁 Hitos</div>
+  <div class="tab" onclick="sw('riesgos',this)">⚠️ Riesgos</div>
+</div>
+<div class="main">
+<div id="t-dashboard" class="tc active">
+  <div class="kpis">
+    <div class="kpi c"><div class="lbl">Total Tareas</div><div class="val">46</div><div class="sub">En el plan</div></div>
+    <div class="kpi c"><div class="lbl">% Avance General</div><div class="val">17%</div><div class="pbar"><div class="pfill" style="width:17%"></div></div></div>
+    <div class="kpi g"><div class="lbl">Finalizadas</div><div class="val">4</div><div class="sub">Completadas</div></div>
+    <div class="kpi y"><div class="lbl">En Progreso</div><div class="val">4</div><div class="sub">Activas hoy</div></div>
+    <div class="kpi r"><div class="lbl">Atrasadas</div><div class="val">5</div><div class="sub">Requieren atención</div></div>
+    <div class="kpi b"><div class="lbl">Hitos</div><div class="val">7</div><div class="sub">Milestones</div></div>
+  </div>
+  <div class="sec-title">⚠ Alertas del Proyecto</div>
+  <div class="alerts" id="al"></div>
+  <div class="sec-title" style="margin-top:20px">🔴 Requieren atención inmediata</div>
+  <div class="tw"><table><thead><tr><th>ID</th><th>Tarea</th><th>Responsable</th><th>Vence</th><th>Avance</th><th>Status</th></tr></thead><tbody id="dtb"></tbody></table></div>
+</div>
+<div id="t-tareas" class="tc">
+  <div class="filters">
+    <input class="srch" id="srch" type="text" placeholder="🔍 Buscar..." oninput="rT()">
+    <button class="fb active" onclick="sF('all',this)">Todas</button>
+    <button class="fb" onclick="sF('atrasada',this)">🔴 Atrasadas</button>
+    <button class="fb" onclick="sF('progreso',this)">🟡 En Progreso</button>
+    <button class="fb" onclick="sF('planificada',this)">⚪ Planificadas</button>
+    <button class="fb" onclick="sF('finalizada',this)">✅ Finalizadas</button>
+  </div>
+  <div class="tw"><table><thead><tr>
+    <th onclick="srt('id')">ID</th><th onclick="srt('tarea')">Tarea</th><th>Responsable</th>
+    <th onclick="srt('inicio')">Inicio</th><th onclick="srt('fin')">Fin</th>
+    <th>Dur.</th><th onclick="srt('pct')">Avance</th><th>Status</th><th>Notas</th>
+  </tr></thead><tbody id="ttb"></tbody></table></div>
+</div>
+<div id="t-hitos" class="tc"><div class="hgrid" id="hc"></div></div>
+<div id="t-riesgos" class="tc"><div class="rgrid" id="rc"></div></div>
+</div>
+<div class="footer">Plan Maestro — CALLE BONITA #5 · Project Expert · Expert Construction · Actualizado 07-Jun-2026</div>
+<script>
+const T=[{"id": "T-001", "wbs": "Pedestal Eléctrico", "tarea": "Construcción Pedestal Eléctrico", "responsable": "Ivan", "predecesor": "", "inicio": "2026-05-22", "fin": "2026-06-15", "duracion": 18, "pct": 75, "status": "atrasada", "icon": "🔴", "riesgo": "Demora inspección LUMA", "notas": "En espera de Base del contador"}, {"id": "T-003", "wbs": "Pedestal Eléctrico", "tarea": "Electricidad 4to piso", "responsable": "Ivan", "predecesor": "", "inicio": "2026-06-03", "fin": "2026-06-08", "duracion": 5, "pct": 50, "status": "atrasada", "icon": "🔴", "riesgo": "Restrasa topping y empanetado", "notas": ""}, {"id": "T-004", "wbs": "Pedestal Eléctrico", "tarea": "Conexión final de LUMA", "responsable": "LUMA", "predecesor": "T-001", "inicio": "2026-06-15", "fin": "2026-06-30", "duracion": 13, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-006", "wbs": "Piso #1", "tarea": "Reparación Huellas entrada Garage", "responsable": "Expert", "predecesor": "", "inicio": "2026-08-10", "fin": "2026-08-15", "duracion": 6, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-007", "wbs": "Piso #1", "tarea": "Instalación cristal Gym", "responsable": "Elias", "predecesor": "", "inicio": "2026-06-18", "fin": "2026-06-22", "duracion": 4, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-008", "wbs": "Piso #1", "tarea": "Terminación cuarto mecánico Piscina", "responsable": "Expert", "predecesor": "", "inicio": "2026-06-08", "fin": "2026-06-12", "duracion": 6, "pct": 75, "status": "progreso", "icon": "🟡", "riesgo": "", "notas": ""}, {"id": "T-009", "wbs": "Piso #1", "tarea": "Compra equipos de la piscina", "responsable": "Comprados", "predecesor": "", "inicio": "2026-06-30", "fin": "2026-06-30", "duracion": 2, "pct": 100, "status": "finalizada", "icon": "✅", "riesgo": "", "notas": "Confirmar entrega"}, {"id": "T-010", "wbs": "Piso #1", "tarea": "Instalación equipos de la piscina", "responsable": "Felix", "predecesor": "T-009", "inicio": "2026-06-08", "fin": "2026-06-12", "duracion": 6, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": "Confirmar esto"}, {"id": "T-011", "wbs": "Piso #1", "tarea": "Limpieza del foso del elevador", "responsable": "Eury", "predecesor": "", "inicio": "2026-06-15", "fin": "2026-06-16", "duracion": 3, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": "Pago nomina diaria extra Eury"}, {"id": "T-014", "wbs": "Todos", "tarea": "Pintura General", "responsable": "Albert", "predecesor": "", "inicio": "2026-07-01", "fin": "2026-07-10", "duracion": 9, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-015", "wbs": "Todos", "tarea": "Iluminación general", "responsable": "Expert", "predecesor": "T-014", "inicio": "2026-06-15", "fin": "2026-06-19", "duracion": 6, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": "Escoger luces con Lizzette & Jose"}, {"id": "T-016", "wbs": "Todos", "tarea": "Instalación receptáculos eléctricos", "responsable": "Expert", "predecesor": "", "inicio": "2026-06-12", "fin": "2026-06-14", "duracion": 2, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": "Verificar estatus materiales"}, {"id": "T-017", "wbs": "Todos", "tarea": "Terminación escalera general", "responsable": "Eury", "predecesor": "", "inicio": "2026-05-22", "fin": "2026-06-06", "duracion": 12, "pct": 0, "status": "atrasada", "icon": "🔴", "riesgo": "", "notas": ""}, {"id": "T-019", "wbs": "Piso #1", "tarea": "Instalación Generador Eléctrico", "responsable": "Expert", "predecesor": "T-004", "inicio": "2026-06-15", "fin": "2026-06-17", "duracion": 4, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "Requerido para prueba de aires", "notas": ""}, {"id": "T-020", "wbs": "Piso #1", "tarea": "Instalación Tanque Séptico", "responsable": "Expert", "predecesor": "", "inicio": "2026-05-22", "fin": "2026-05-28", "duracion": 6, "pct": 100, "status": "finalizada", "icon": "✅", "riesgo": "", "notas": ""}, {"id": "T-021", "wbs": "Piso #1", "tarea": "Instalación Cisternas agua potable", "responsable": "Expert", "predecesor": "", "inicio": "2026-07-10", "fin": "2026-07-17", "duracion": 7, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-022", "wbs": "Piso #1", "tarea": "Instalación Trailer oficina", "responsable": "Expert", "predecesor": "", "inicio": "2026-07-10", "fin": "2026-07-17", "duracion": 7, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-023", "wbs": "Piso #1", "tarea": "Conexiones Trailer oficina", "responsable": "Expert", "predecesor": "T-022", "inicio": "2026-07-10", "fin": "2026-07-17", "duracion": 7, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-026", "wbs": "Piso #2", "tarea": "Terminaciones de la Piscina", "responsable": "Eury", "predecesor": "", "inicio": "2026-06-08", "fin": "2026-06-10", "duracion": 4, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "Validar dias con Eury", "notas": "Verificar materiales requeridos"}, {"id": "T-027", "wbs": "Piso #2", "tarea": "Pruebas funcionamiento Piscina", "responsable": "Aqua", "predecesor": "T-010,T-026", "inicio": "2026-07-20", "fin": "2026-07-22", "duracion": 4, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-028", "wbs": "Piso #2", "tarea": "Llenado de agua de la piscina", "responsable": "Chago", "predecesor": "T-027", "inicio": "2026-07-22", "fin": "2026-07-23", "duracion": 3, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-032", "wbs": "Piso #2", "tarea": "Compra muebles cocina & Equipos", "responsable": "Lizzette", "predecesor": "", "inicio": "2026-05-29", "fin": "2026-05-29", "duracion": 2, "pct": 100, "status": "finalizada", "icon": "✅", "riesgo": "", "notas": "Validar fecha entrega"}, {"id": "T-033", "wbs": "Piso #2", "tarea": "Terminación Cocina", "responsable": "Noel", "predecesor": "T-032", "inicio": "2026-07-15", "fin": "2026-07-29", "duracion": 12, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": "Informar a Noel de fianlizacion"}, {"id": "T-034", "wbs": "Piso #2", "tarea": "Compra equipos de Baño", "responsable": "Lizzette", "predecesor": "", "inicio": "2026-05-25", "fin": "2026-05-29", "duracion": 6, "pct": 90, "status": "atrasada", "icon": "🔴", "riesgo": "", "notas": "Falta inodoros"}, {"id": "T-036", "wbs": "Piso #2", "tarea": "Muebles Oficina Jose", "responsable": "Noel", "predecesor": "", "inicio": "2026-06-25", "fin": "2026-06-29", "duracion": 4, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-039", "wbs": "Todos", "tarea": "Pruebas de presión agua potable", "responsable": "Ivan", "predecesor": "", "inicio": "2026-06-22", "fin": "2026-06-26", "duracion": 6, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-041", "wbs": "Piso #2", "tarea": "Terminación Barandas Piscina", "responsable": "Elias", "predecesor": "", "inicio": "2026-07-06", "fin": "2026-07-17", "duracion": 11, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-044", "wbs": "Todos", "tarea": "Instalación Puertas y Ventanas interiores", "responsable": "Elias", "predecesor": "", "inicio": "2026-07-27", "fin": "2026-07-31", "duracion": 6, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-048", "wbs": "Piso #3", "tarea": "Entrega muebles banos", "responsable": "Noel", "predecesor": "", "inicio": "2026-07-25", "fin": "2026-07-29", "duracion": 4, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-051", "wbs": "Piso #3", "tarea": "Instalación Barandas Terraza", "responsable": "Elias", "predecesor": "", "inicio": "2026-06-25", "fin": "2026-06-29", "duracion": 4, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-056", "wbs": "Todos", "tarea": "Terminaciones de los pisos General", "responsable": "Eury", "predecesor": "", "inicio": "2026-06-06", "fin": "2026-06-17", "duracion": 9, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-057", "wbs": "Piso #4", "tarea": "Instalación Techo Metálico", "responsable": "Eury", "predecesor": "", "inicio": "2026-06-05", "fin": "2026-06-08", "duracion": 3, "pct": 50, "status": "progreso", "icon": "🟡", "riesgo": "Estructural P4", "notas": ""}, {"id": "T-058", "wbs": "Piso #4", "tarea": "Instalación Bloques Habitación-Baño", "responsable": "Eury", "predecesor": "", "inicio": "2026-05-26", "fin": "2026-06-04", "duracion": 9, "pct": 100, "status": "finalizada", "icon": "✅", "riesgo": "Construcción nueva", "notas": ""}, {"id": "T-059", "wbs": "Piso #4", "tarea": "Empañetados Paredes", "responsable": "Eury", "predecesor": "T-058", "inicio": "2026-06-12", "fin": "2026-06-15", "duracion": 3, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-061", "wbs": "Piso #4", "tarea": "Terminación del techo facia", "responsable": "Eury", "predecesor": "", "inicio": "2026-07-12", "fin": "2026-07-20", "duracion": 7, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "Fecha inconsistente vs 9.1", "notas": "Verificar"}, {"id": "T-064", "wbs": "Piso #4", "tarea": "Vanitys & Muebles Banos", "responsable": "Noel", "predecesor": "", "inicio": "2026-06-25", "fin": "2026-07-10", "duracion": 13, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-065", "wbs": "Todos", "tarea": "Terminaciones Baños", "responsable": "Eury", "predecesor": "T-064", "inicio": "2026-06-01", "fin": "2026-06-10", "duracion": 9, "pct": 0, "status": "atrasada", "icon": "🔴", "riesgo": "", "notas": ""}, {"id": "T-071", "wbs": "Todos", "tarea": "Instalación del Equipo de A/C", "responsable": "Danny", "predecesor": "", "inicio": "2026-05-26", "fin": "2026-06-12", "duracion": 15, "pct": 50, "status": "progreso", "icon": "🟡", "riesgo": "", "notas": ""}, {"id": "T-072", "wbs": "Todos", "tarea": "Verificación Sistema A/C casa", "responsable": "Danny", "predecesor": "T-071", "inicio": "2026-06-12", "fin": "2026-06-20", "duracion": 7, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-073", "wbs": "Equipos Especiales", "tarea": "Instalación Elevador", "responsable": "Ismael", "predecesor": "T-011", "inicio": "2026-07-06", "fin": "2026-07-17", "duracion": 11, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "Equipo especializado", "notas": "Confirmar fecha & requerimientos"}, {"id": "T-074", "wbs": "Todos", "tarea": "Instalación Muebles de T.V.", "responsable": "Expert", "predecesor": "", "inicio": "2026-07-06", "fin": "2026-07-17", "duracion": 11, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-075", "wbs": "Todos", "tarea": "Terminación Fachadas de la casa", "responsable": "Eury", "predecesor": "", "inicio": "2026-06-10", "fin": "2026-06-24", "duracion": 12, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-076", "wbs": "Equipos Especiales", "tarea": "Instalación sistema de Internet", "responsable": "Elias", "predecesor": "", "inicio": "2026-08-01", "fin": "2026-08-10", "duracion": 7, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-077", "wbs": "Equipos Especiales", "tarea": "Instalación de los paneles solares", "responsable": "Elias", "predecesor": "T-061", "inicio": "2026-08-20", "fin": "2026-08-26", "duracion": 6, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "Techo debe estar listo", "notas": ""}, {"id": "T-078", "wbs": "Equipos Especiales", "tarea": "Instalación del sistema de Baterías", "responsable": "Elias", "predecesor": "T-077", "inicio": "2026-08-20", "fin": "2026-08-26", "duracion": 6, "pct": 0, "status": "planificada", "icon": "⚪", "riesgo": "", "notas": ""}, {"id": "T-079", "wbs": "Punch List", "tarea": "Punch List General", "responsable": "Subc.", "predecesor": "", "inicio": "2026-05-26", "fin": "2026-10-17", "duracion": 104, "pct": 10, "status": "progreso", "icon": "🟡", "riesgo": "Cierre del proyecto", "notas": "Hito final"}];const H=[{"id": "M-01", "hito": "Energización LUMA Energy", "fecha": "2026-06-25", "depende": "T-004", "descripcion": "Activación de servicio eléctrico permanente", "dias": 17}, {"id": "M-02", "hito": "Cierre estructural Piso #4", "fecha": "2026-07-17", "depende": "T-057,T-058,T-059", "descripcion": "Edificio cerrado al agua", "dias": 39}, {"id": "M-03", "hito": "Sistemas MEP completos", "fecha": "2026-07-27", "depende": "T-038,T-052,T-066", "descripcion": "Eléctrico, plomería, mecánico", "dias": 49}, {"id": "M-04", "hito": "Piscina operativa", "fecha": "2026-07-30", "depende": "T-027,T-028", "descripcion": "Equipos + agua + pruebas", "dias": 52}, {"id": "M-05", "hito": "Sistema Solar activo", "fecha": "2026-08-17", "depende": "T-077,T-078", "descripcion": "PV + baterías", "dias": 70}, {"id": "M-06", "hito": "Punch List completo", "fecha": "2026-11-21", "depende": "T-079", "descripcion": "Cierre formal del proyecto", "dias": 166}, {"id": "M-07", "hito": "Entrega al cliente", "fecha": "2026-12-01", "depende": "M-06", "descripcion": "Acta de entrega", "dias": 176}];const R=[{"id": "R-01", "riesgo": "Demora inspección LUMA bloquea energización", "categoria": "Externa", "prob": 4, "impacto": 5, "score": 20, "level": "critico", "mitigacion": "Coordinar inspección con 2 semanas de antelación", "dueno": "Expert / Elias", "status": "Abierto"}, {"id": "R-02", "riesgo": "Sobrecarga de Eury: 6 tareas paralelas 8-17 jun", "categoria": "Recursos", "prob": 5, "impacto": 4, "score": 20, "level": "critico", "mitigacion": "Contratar cuadrilla adicional o escalonar escalera por pisos", "dueno": "Elias", "status": "Abierto"}, {"id": "R-03", "riesgo": "Terminaciones Piscina (T-026) programada 8-10 jun — sin iniciar", "categoria": "Cronograma", "prob": 5, "impacto": 3, "score": 15, "level": "critico", "mitigacion": "Reprogramar y validar avance real esta semana", "dueno": "Eury / Elias", "status": "Abierto"}, {"id": "R-04", "riesgo": "Material cristal Gym en tránsito", "categoria": "Suministro", "prob": 3, "impacto": 3, "score": 9, "level": "medio", "mitigacion": "Confirmar fecha de llegada con proveedor", "dueno": "Elias", "status": "Abierto"}, {"id": "R-05", "riesgo": "Escalera principal misma ventana en 4 pisos", "categoria": "Cronograma", "prob": 5, "impacto": 4, "score": 20, "level": "critico", "mitigacion": "Escalonar: P1→P2→P3→P4 con 2-3 días de offset", "dueno": "Eury", "status": "Abierto"}, {"id": "R-06", "riesgo": "Techo P4 vs Instalación Techo Metálico fechas inconsistentes", "categoria": "Planificación", "prob": 3, "impacto": 2, "score": 6, "level": "medio", "mitigacion": "Validar secuencia 9.1 vs 9.5", "dueno": "Elias", "status": "Abierto"}, {"id": "R-07", "riesgo": "Paneles solares requieren techo terminado", "categoria": "Dependencia", "prob": 4, "impacto": 3, "score": 12, "level": "critico", "mitigacion": "No iniciar 10.7 hasta confirmar 7.6, 8.2, 9.5 al 100%", "dueno": "Elias", "status": "Abierto"}, {"id": "R-08", "riesgo": "Generador y Tanque Séptico misma semana, mismo equipo", "categoria": "Recursos", "prob": 3, "impacto": 3, "score": 9, "level": "medio", "mitigacion": "Verificar capacidad de Expert para tareas paralelas", "dueno": "Expert", "status": "Abierto"}, {"id": "R-09", "riesgo": "Compra equipos baños pendiente", "categoria": "Suministro", "prob": 4, "impacto": 4, "score": 16, "level": "critico", "mitigacion": "Cerrar compra esta semana, define crítico para Eury en jun", "dueno": "Lizzette / Noel", "status": "Abierto"}, {"id": "R-10", "riesgo": "Inspección final / permisos uso", "categoria": "Regulatorio", "prob": 3, "impacto": 5, "score": 15, "level": "critico", "mitigacion": "Coordinar inspecciones municipales con anticipación", "dueno": "Elias", "status": "Abierto"}];const AL=["⚠ Eury tiene 6 tareas simultáneas en la semana 8–17 jun. Validar capacidad o escalonar.", "⚠ Terminaciones Piscina (T-026) programada 8–10 jun — sin iniciar. Verificar estatus.", "⚠ Fechas inconsistentes T-061 (Terminación Techo P4) vs T-057 (Instalación Techo Metálico).", "⚠ Compras pendientes: equipos baño y muebles. Bloquean Eury en junio."];
+let CF='all',SC='id',SD=1;
+const MN=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function fd(d){if(!d)return'—';const[y,m,dy]=d.split('-');return dy+'-'+MN[+m-1]+'-'+y}
+function pc(p){return p>=100?'#10b981':p>=50?'#3b82f6':p>=25?'#f59e0b':'#ef4444'}
+function bg(s){const l={atrasada:'🔴 Atrasada',finalizada:'✅ Finalizada',progreso:'🟡 En Progreso',planificada:'⚪ Planificada'};return'<span class="badge '+s+'">'+(l[s]||s)+'</span>'}
+function sw(n,el){document.querySelectorAll('.tc').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));document.getElementById('t-'+n).classList.add('active');el.classList.add('active')}
+function sF(f,b){CF=f;document.querySelectorAll('.fb').forEach(x=>x.classList.remove('active'));b.classList.add('active');rT()}
+function srt(c){SD=SC===c?-SD:1;SC=c;rT()}
+function rT(){
+  const q=document.getElementById('srch').value.toLowerCase();
+  let f=T.filter(t=>(CF==='all'||t.status===CF)&&(!q||t.tarea.toLowerCase().includes(q)||t.responsable.toLowerCase().includes(q)||t.id.toLowerCase().includes(q)));
+  f.sort((a,b)=>{let va=a[SC],vb=b[SC];if(typeof va==='string'){va=va.toLowerCase();vb=vb.toLowerCase();}return va<vb?-SD:va>vb?SD:0});
+  const g={};f.forEach(t=>{g[t.wbs]=g[t.wbs]||[];g[t.wbs].push(t)});
+  let h='';
+  for(const[w,ts]of Object.entries(g)){
+    h+=`<tr class="wbsh"><td colspan="9">📁 ${w}</td></tr>`;
+    ts.forEach(t=>{h+=`<tr>
+      <td style="color:var(--muted);font-size:11px">${t.id}</td>
+      <td style="font-weight:500;max-width:240px">${t.tarea}</td>
+      <td><span style="background:rgba(139,92,246,.1);color:#c4b5fd;padding:2px 8px;border-radius:20px;font-size:11px">${t.responsable}</span></td>
+      <td style="color:var(--muted);font-size:11px">${fd(t.inicio)}</td>
+      <td style="color:var(--muted);font-size:11px">${fd(t.fin)}</td>
+      <td style="color:var(--muted);text-align:center">${t.duracion}d</td>
+      <td><div class="pb"><div class="pb-track"><div class="pb-fill" style="width:${t.pct}%;background:${pc(t.pct)}"></div></div><span class="pn">${t.pct}%</span></div></td>
+      <td>${bg(t.status)}</td>
+      <td style="color:var(--muted);font-size:11px;max-width:160px">${t.notas||''}</td>
+    </tr>`});
+  }
+  document.getElementById('ttb').innerHTML=h||'<tr><td colspan="9" class="empty">Sin resultados</td></tr>';
+}
+function iD(){
+  document.getElementById('al').innerHTML=AL.map(a=>`<div class="alert-item">${a}</div>`).join('');
+  const urg=T.filter(t=>t.status==='atrasada'||t.status==='progreso');
+  document.getElementById('dtb').innerHTML=urg.map(t=>`<tr>
+    <td style="color:var(--muted);font-size:11px">${t.id}</td><td style="font-weight:500">${t.tarea}</td>
+    <td><span style="background:rgba(139,92,246,.1);color:#c4b5fd;padding:2px 8px;border-radius:20px;font-size:11px">${t.responsable}</span></td>
+    <td style="color:var(--muted);font-size:11px">${fd(t.fin)}</td>
+    <td><div class="pb"><div class="pb-track"><div class="pb-fill" style="width:${t.pct}%;background:${pc(t.pct)}"></div></div><span class="pn">${t.pct}%</span></div></td>
+    <td>${bg(t.status)}</td>
+  </tr>`).join('')||'<tr><td colspan="6" class="empty">Sin tareas urgentes</td></tr>';
+  document.getElementById('hc').innerHTML=H.map(h=>{
+    const d=h.dias;let cl=d<0?'v':d<=30?'p':'ok',ic=d<0?'🚨':d<=30?'⚡':'🏁';
+    const dt=d<0?`Vencido hace ${Math.abs(d)}d`:`En ${d} días`,dc=d<0?'neg':d<=30?'soon':'';
+    return`<div class="hcard ${cl}"><div class="hicon">${ic}</div><div class="hinfo"><div class="hid">${h.id}</div><div class="hname">${h.hito}</div><div class="hdesc">${h.descripcion}</div></div><div class="hdate"><div class="d">${fd(h.fecha)}</div><div class="days ${dc}">${dt}</div></div></div>`;
+  }).join('');
+  const rs=[...R].sort((a,b)=>b.score-a.score);
+  document.getElementById('rc').innerHTML=rs.map(r=>`<div class="rcard ${r.level}">
+    <div class="sc ${r.level}">${r.score}</div>
+    <div class="rm"><div class="rid">${r.id} · P:${r.prob} × I:${r.impacto}</div><div class="rn">${r.riesgo}</div><div class="rmit">💡 ${r.mitigacion}</div></div>
+    <div class="rmeta"><div class="cat">${r.categoria}</div><div class="duo">👤 ${r.dueno}</div></div>
+  </div>`).join('');
+}
+iD();rT();
+</script>
+</body>
+</html>
